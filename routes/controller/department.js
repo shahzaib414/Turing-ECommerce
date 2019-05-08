@@ -10,7 +10,12 @@ exports.getDepartments = (request, response) => {
         if (authToken.validateToken(token)){
             Sequelize.DepartmentModel.findAll()
             .then((result) => {
-                response.json(result)
+                if (result.length>0) {
+                    response.json(result)
+                }
+                else {
+                    response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.EMPTY,"Department"))
+                }
             })
         }
         else {

@@ -5,27 +5,11 @@ var cors = require('cors')
 const app = express()
 
 var routes = require('./routes/routes')
-
-/*var connectionPool      =    mysql.createPool({
-    connectionLimit : 100, 
-    host     : dbConfig.HOST_NAME,
-    user     : dbConfig.DB_USER,
-    password : dbConfig.DB_PASSWORD,
-    database : dbConfig.DB_NAME,
-    debug    :  false
-});*/
-
-//This will be move to Db service 
-/*connectionPool.getConnection((err,connection) => { 
-    if (err) {
-        console.log("Error in Connection:" + err)
-        return
-    }
-    console.log("Connection:" +connection.threadId)
-}); */
+var morgan  = require('morgan')
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(bodyParser.json())
+app.use(morgan('combined'))
 
 routes(app)
 app.listen(3000, () => {

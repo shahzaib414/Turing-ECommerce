@@ -27,10 +27,16 @@ exports.getCategories = (request, response) => {
                                 limit: Number(limit),
                                 offset: Number(page)
                             }).then((result) => {
-                                response.json({
-                                    count : result.length,
-                                    rows : result
-                                })
+                                if (result.length>0) {
+                                    response.json({
+                                        count : result.length,
+                                        rows : result
+                                    })
+
+                                }
+                                else {
+                                    response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.EMPTY,"Category"))
+                                }
                             })
                         }
                         else {
