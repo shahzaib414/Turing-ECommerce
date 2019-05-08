@@ -1,1 +1,19 @@
 # Turing-ECommerce
+API is hosted on: 
+App Architectire : https://drive.google.com/open?id=1OUSEjJ5aShAEn5xPYG7C_ctG8hgFEy8ZXAbPwSipb7o
+
+API Documentation: https://docs.google.com/document/d/1yqrwmSSErqAa5092UgAkljqgol0-8naXt18NFcPKtYI/edit?usp=sharing
+
+Error Handling Document: https://drive.google.com/open?id=1q5suSUKcxLAtrGJUA1nlf25Az6o0-LV0NE3TEtTpUl4
+
+Postman File For API Testing : https://drive.google.com/open?id=1HYfQgx9ZmrjI72L_bRoP_xCpRQLbAXjw
+
+Time Tracker: https://wakatime.com/@d83e7c86-c776-45d1-86cc-f8a474bdf870/projects/ftmfleppqw?start=2019-05-02&end=2019-05-08
+(I was not able to login on mentioned  dashboard for time tracking Updates, that's why i am attaching this )
+
+Tasks which i am not able to complete
+
+- Facebook Token Authentication 
+- Shoping Cart API 
+- Strip API 
+- Unit Testing 
