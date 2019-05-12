@@ -31,4 +31,5 @@ db.ShippingModel = require('../models/shipping')(initSequelize,sequelize)
 db.ShippingRegionModel = require('../models/shippingRegions')(initSequelize,sequelize)
 db.OrdersModel = require('../models/orders')(initSequelize,sequelize)
 db.OrderDetailsModel = require('../models/orderDetails')(initSequelize,sequelize)
+db.ShoppingCartModel = require('./shopping_cart')(initSequelize,sequelize)
 module.exports = db

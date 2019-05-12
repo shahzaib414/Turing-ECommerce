@@ -10,18 +10,9 @@ API Documentation: https://docs.google.com/document/d/1yqrwmSSErqAa5092UgAkljqgo
 Error Handling Document: https://drive.google.com/open?id=1q5suSUKcxLAtrGJUA1nlf25Az6o0-LV0NE3TEtTpUl4
 For Logging i have used Morgan 
 
-Postman File For API Testing : https://drive.google.com/open?id=1HYfQgx9ZmrjI72L_bRoP_xCpRQLbAXjw
 
 Time Tracker: https://wakatime.com/@d83e7c86-c776-45d1-86cc-f8a474bdf870/projects/ftmfleppqw?start=2019-05-02&end=2019-05-08
 (I was not able to login on mentioned  dashboard for time tracking Updates, that's why i am attaching this )
-
-Tasks which i am not able to complete
-
-- Facebook Token Authentication 
-- Shoping Cart API 
-- Strip API 
-- Unit Testing 
-
 -----------------------------------
 - For  1,000,000 daily active users
     We can use any server less compute technique for scalability  like Aws Lambda .

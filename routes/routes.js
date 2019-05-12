@@ -7,6 +7,9 @@ module.exports = function(app){
     var tax = require('./controller/tax') 
     var shipping = require('./controller/shipping') 
     var order = require('./controller/orders') 
+    var shoppingCart = require('./controller/shoppingCart')
+    var stripe = require('./controller/stripe') 
+
 
     //** Department API  */
     app.get('/departments',departments.getDepartments)
@@ -18,7 +21,6 @@ module.exports = function(app){
     app.get('/categories/inProduct/:product_id',categories.getCategoriesOfProduct)
     app.get('/categories/inDepartment/:department_id',categories.getCategoriesOfDepartment)
     
-
     //** products API  */
     app.get('/products',products.getProducts)
     app.get('/products/search',products.searchProducts)
@@ -58,4 +60,19 @@ module.exports = function(app){
      app.get('/orders/:order_id',order.getOdrderByID)
      app.get('/orders/shortDetail/:order_id',order.getOrderInfo)
 
+     //** Order API  */
+     app.get('/shoppingcart/generateUniqueId',shoppingCart.generateUniqueID)
+     app.post('/shoppingcart/add',shoppingCart.addProductInCart)
+     app.get('/shoppingcart/:cart_id',shoppingCart.getListOfProductByCartID)
+     app.put('/shoppingcart/update/:item_id',shoppingCart.updateCartItem)
+     app.delete('/shoppingcart/empty/:cart_id',shoppingCart.emptyCart)
+     app.get('/shoppingcart/totalAmount/:cart_id',shoppingCart.totalAmountInCart)
+     app.get('/shoppingcart/saveForLater/:item_id',shoppingCart.saveForLater)
+     app.get('/shoppingcart/getSaved/:cart_id',shoppingCart.getProductSavedForLatter)
+     app.delete('/shoppingcart/removeProduct/:item_id',shoppingCart.removeProductFromCart)
+
+     //** Stripe API  */
+     app.post('/stripe/charge',stripe.charge)
+     app.get('/stripe/getStripeToken',stripe.getStripeToken)
+     app.post('/stripe/webhooks',stripe.stripeWebhooks)
 }
