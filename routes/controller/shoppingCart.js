@@ -33,24 +33,55 @@ exports.addProductInCart = (request, response) => {
                 var attributes = request.body.attributes
                 var buy_now = typeof request.body.buy_now != 'undefined' ? request.body.buy_now : 1
                 var quantity = typeof request.body.quantity != 'undefined' ? request.body.quantity : 1
-                Sequelize.ShoppingCartModel.create({
-                    cart_id: cart_id,
-                    product_id: product_id,
-                    attributes: attributes,
-                    buy_now: buy_now,
-                    quantity: quantity,
-                    added_on: moment().format('YYYY-MM-DD hh:mm:ss')
-                }).then((result) => {
-                    var SqlQuery = "Select item_id,shopping_cart.attributes,shopping_cart.product_id," +
-                        "product.name,product.image,product.price,shopping_cart.quantity, product.price*shopping_cart.quantity as subtotal " +
-                        "from shopping_cart " +
-                        "inner join product on shopping_cart.product_id = product.product_id " +
-                        "where cart_id = '" + result.cart_id + "';"
-                    Sequelize.initSequelize.query(SqlQuery)
-                        .then((list) => {
-                            response.json(list[0])
-                        })
+                Sequelize.ShoppingCartModel.findOne({
+                    where: {
+                        product_id: product_id
+                    }
                 })
+                    .then((result) => {
+                        if (result != null) {
+                            Sequelize.ShoppingCartModel.update({
+                                quantity: result.quantity + 1
+                            }, {
+                                    where: {
+                                        product_id: product_id,
+                                        cart_id: cart_id
+
+                                    }
+                                })
+                                .then(() => {
+                                    var SqlQuery = "Select item_id,shopping_cart.attributes,shopping_cart.product_id," +
+                                        "product.name,product.image,product.price,shopping_cart.quantity, product.price*shopping_cart.quantity as subtotal " +
+                                        "from shopping_cart " +
+                                        "inner join product on shopping_cart.product_id = product.product_id " +
+                                        "where cart_id = '" + result.cart_id + "';"
+                                    Sequelize.initSequelize.query(SqlQuery)
+                                        .then((list) => {
+                                            response.json(list[0])
+                                        })
+                                })
+                        }
+                        else {
+                            Sequelize.ShoppingCartModel.create({
+                                cart_id: cart_id,
+                                product_id: product_id,
+                                attributes: attributes,
+                                buy_now: buy_now,
+                                quantity: quantity,
+                                added_on: moment().format('YYYY-MM-DD hh:mm:ss')
+                            }).then((result) => {
+                                var SqlQuery = "Select item_id,shopping_cart.attributes,shopping_cart.product_id," +
+                                    "product.name,product.image,product.price,shopping_cart.quantity, product.price*shopping_cart.quantity as subtotal " +
+                                    "from shopping_cart " +
+                                    "inner join product on shopping_cart.product_id = product.product_id " +
+                                    "where cart_id = '" + result.cart_id + "';"
+                                Sequelize.initSequelize.query(SqlQuery)
+                                    .then((list) => {
+                                        response.json(list[0])
+                                    })
+                            })
+                        }
+                    })
             }
             else {
                 response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Cart_id / product_id / attributes"))
@@ -135,14 +166,14 @@ exports.emptyCart = (request, response) => {
         if (authToken.validateToken(token)) {
             if (typeof request.params.cart_id != 'undefined') {
                 Sequelize.ShoppingCartModel.destroy({
-                    where : {
-                        cart_id : request.params.cart_id
+                    where: {
+                        cart_id: request.params.cart_id
                     }
                 })
-                .then(()=> {
-                    response.json([])
-                })
-            } 
+                    .then(() => {
+                        response.json([])
+                    })
+            }
             else {
                 response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Cart id"))
             }
@@ -160,15 +191,15 @@ exports.totalAmountInCart = (request, response) => {
     if (token) {
         if (authToken.validateToken(token)) {
             if (typeof request.params.cart_id != 'undefined') {
-                var SqlQuery = "Select sum(product.price*shopping_cart.quantity) as totalAmount "+
-                "from shopping_cart "+
-                "inner join product on shopping_cart.product_id = product.product_id "+
-                "where cart_id = '"+request.params.cart_id+"'"
+                var SqlQuery = "Select sum(product.price*shopping_cart.quantity) as totalAmount " +
+                    "from shopping_cart " +
+                    "inner join product on shopping_cart.product_id = product.product_id " +
+                    "where cart_id = '" + request.params.cart_id + "'"
                 Sequelize.initSequelize.query(SqlQuery)
-                .then((result) => {
-                    response.json(result[0])
-                })
-            } 
+                    .then((result) => {
+                        response.json(result[0])
+                    })
+            }
             else {
                 response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Cart id"))
             }
@@ -187,16 +218,16 @@ exports.saveForLater = (request, response) => {
         if (authToken.validateToken(token)) {
             if (typeof request.params.item_id != 'undefined') {
                 Sequelize.ShoppingCartModel.update({
-                    buy_now : 0
-                },{
-                    where : {
-                        item_id : request.params.item_id
-                    }
-                })
-                .then(()=> {
-                    response.json({})
-                })
-            } 
+                    buy_now: 0
+                }, {
+                        where: {
+                            item_id: request.params.item_id
+                        }
+                    })
+                    .then(() => {
+                        response.json({})
+                    })
+            }
             else {
                 response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "item id"))
             }
@@ -213,17 +244,17 @@ exports.getProductSavedForLatter = (request, response) => {
     let token = request.headers['x-access-token'] || request.headers[auth.AUTH_HEADER];
     if (token) {
         if (authToken.validateToken(token)) {
-           if (typeof request.params.cart_id != 'undefined'){
-                var SqlQuery = "Select item_id,shopping_cart.attributes,product.name,"+
-                "product.price from shopping_cart inner join product on shopping_cart.product_id = product.product_id where buy_now = 0;"
+            if (typeof request.params.cart_id != 'undefined') {
+                var SqlQuery = "Select item_id,shopping_cart.attributes,product.name," +
+                    "product.price from shopping_cart inner join product on shopping_cart.product_id = product.product_id where buy_now = 0;"
                 Sequelize.initSequelize.query(SqlQuery)
-                .then((result) => {
-                    response.json(result[0])
-                })
-           }
-           else{
-            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "cart_id"))
-           }
+                    .then((result) => {
+                        response.json(result[0])
+                    })
+            }
+            else {
+                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "cart_id"))
+            }
         }
         else {
             response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.UNAUTHORIZED, "Auth Token"))
@@ -237,19 +268,19 @@ exports.removeProductFromCart = (request, response) => {
     let token = request.headers['x-access-token'] || request.headers[auth.AUTH_HEADER];
     if (token) {
         if (authToken.validateToken(token)) {
-           if (typeof request.params.item_id != 'undefined'){
-               Sequelize.ShoppingCartModel.destroy({
-                   where : {
-                       item_id : request.params.item_id 
-                   }
-               })
-               .then((result) => {
-                   response.json({})
-               })
-           }
-           else {
-            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Item id"))
-           }
+            if (typeof request.params.item_id != 'undefined') {
+                Sequelize.ShoppingCartModel.destroy({
+                    where: {
+                        item_id: request.params.item_id
+                    }
+                })
+                    .then((result) => {
+                        response.json({})
+                    })
+            }
+            else {
+                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Item id"))
+            }
         }
         else {
             response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.UNAUTHORIZED, "Auth Token"))

@@ -60,7 +60,7 @@ module.exports = function(app){
      app.get('/orders/:order_id',order.getOdrderByID)
      app.get('/orders/shortDetail/:order_id',order.getOrderInfo)
 
-     //** Order API  */
+     //** Shopping Car API  */
      app.get('/shoppingcart/generateUniqueId',shoppingCart.generateUniqueID)
      app.post('/shoppingcart/add',shoppingCart.addProductInCart)
      app.get('/shoppingcart/:cart_id',shoppingCart.getListOfProductByCartID)

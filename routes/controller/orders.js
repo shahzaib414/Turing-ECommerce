@@ -9,10 +9,18 @@ exports.CreateOrder = (request, response) => {
     if (token) {
         if (authToken.validateToken(token)){
             if (typeof request.body.cart_id != 'undefined' && typeof request.body.shipping_id != 'undefined' && typeof request.body.tax_id != 'undefined'){
+
                 var cart_id = request.body.cart_id
                 var shipping_id = request.body.shipping_id 
                 var tax_id = request.body.tax_id
-                var total_amount = typeof request.body.total_amount != 'undefined' ?  request.body.total_amount : 0
+                //Get Data dfrom shoping Cart using Cart ID  -  Product ID, Quantity , Attributes 
+
+                //Get Product Details Using Product ID i.e product price , Product Name
+
+
+
+
+                var total_amount = typeof request.body.total_amount != 'undefined' ?  request.body.total_amount : 0 // Will be updated Later in database
                 var status = typeof request.body.status != 'undefined' ?  request.body.status : 1
                 var comments = typeof request.body.comments != 'undefined' ?  request.body.comments : "Order Comments"
                 var customer_id = typeof request.body.customer_id != 'undefined' ?  request.body.customer_id : 1

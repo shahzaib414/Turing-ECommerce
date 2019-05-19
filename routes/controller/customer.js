@@ -24,23 +24,23 @@ exports.getCustomer = (request, response) => {
                     response.json(SequelizeResponse.dataValues)
                 }
                 else {
-                    response.json(ErrorResponse.getErrorMessageObject(ErrorCode.CUSTOMER.ID_NOT_EXIST,"Customer ID"))
+                    response.json(ErrorResponse.getErrorMessageObject(ErrorCode.CUSTOMER.ID_NOT_EXIST, "Customer ID"))
                 }
             })
         }
         else {
-            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.UNAUTHORIZED,"Auth Token"))
+            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.UNAUTHORIZED, "Auth Token"))
         }
     }
     else {
-        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.EMPTY_CODE,"Auth Token"))
+        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.EMPTY_CODE, "Auth Token"))
     }
 
 }
 exports.registerCustomer = (request, response) => {
     if (typeof request.body.email !== 'undefined' && typeof request.body.name !== 'undefined' && typeof request.body.password !== 'undefined' && typeof request.body.shipping_region_id !== 'undefined') {
         if (!validator.validate(request.body.email)) {
-            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.INVALID_EMAIL,"Email"))
+            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.INVALID_EMAIL, "Email"))
         }
         Sequelize.CustomerModel.findOne({
             where: {
@@ -48,7 +48,7 @@ exports.registerCustomer = (request, response) => {
             }
         }).then((SequelizeResponse) => {
             if (SequelizeResponse != null && SequelizeResponse.email !== null) {
-                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.EMAIL_EXIST,"Email"))
+                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.EMAIL_EXIST, "Email"))
             }
             else {
                 var password = request.body.password
@@ -73,7 +73,7 @@ exports.registerCustomer = (request, response) => {
         })
     }
     else {
-        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS,"Email/Name/Password/Shipping ID"))
+        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Email/Name/Password/Shipping ID"))
     }
 }
 exports.loginCustomer = (request, response) => {
@@ -84,6 +84,10 @@ exports.loginCustomer = (request, response) => {
         Sequelize.CustomerModel.findOne({
             where: {
                 email: request.body.email
+            }
+            ,
+            attributes: {
+                exclude: ['access_token']
             }
         }).then((SequelizeResponse) => {
             if (SequelizeResponse != null) {
@@ -103,7 +107,7 @@ exports.loginCustomer = (request, response) => {
                                     }
                                 }
                             }
-                        ).then((result)=> {
+                        ).then((result) => {
                             response.json({
                                 "customer": {
                                     "schema": SequelizeResponse.dataValues
@@ -113,15 +117,15 @@ exports.loginCustomer = (request, response) => {
                             })
                         })
 
-                        
+
                     }
                     else {
-                        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.INVALID_EMAIL_PASSWORD,"Email/Password"))
+                        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.INVALID_EMAIL_PASSWORD, "Email/Password"))
                     }
                 });
             }
             else {
-                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.EMAIL_NOT_EXIST,"Email"))
+                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.EMAIL_NOT_EXIST, "Email"))
             }
         })
             .catch((error) => {
@@ -129,7 +133,7 @@ exports.loginCustomer = (request, response) => {
             })
     }
     else {
-        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS,"Email/Password"))
+        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Email/Password"))
 
     }
 }
@@ -162,21 +166,21 @@ exports.updateCustomer = (request, response) => {
                                 response.json(SequelizeResponse.dataValues)
                             }
                             else {
-                                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.CUSTOMER.ID_NOT_EXIST,"Customer ID"))
+                                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.CUSTOMER.ID_NOT_EXIST, "Customer ID"))
                             }
                         })
                     })
             }
             else {
-                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS,"Email/Name"))
+                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Email/Name"))
             }
         }
         else {
-            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.UNAUTHORIZED,"Auth Token"))
+            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.UNAUTHORIZED, "Auth Token"))
         }
     } else {
 
-        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.EMPTY_CODE,"AUth Token"))
+        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.EMPTY_CODE, "AUth Token"))
     }
 }
 exports.updateCustomerAddress = (request, response) => {
@@ -205,21 +209,21 @@ exports.updateCustomerAddress = (request, response) => {
                                 response.json(SequelizeResponse.dataValues)
                             }
                             else {
-                                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.CUSTOMER.ID_NOT_EXIST,"Customer ID"))
+                                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.CUSTOMER.ID_NOT_EXIST, "Customer ID"))
                             }
                         })
                     })
             }
             else {
-                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS,"Postal Code/Country/Shipping Region ID"))
+                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Postal Code/Country/Shipping Region ID"))
             }
         }
         else {
-            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.UNAUTHORIZED,"Auth Token"))
+            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.UNAUTHORIZED, "Auth Token"))
         }
     }
     else {
-        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.EMPTY_CODE,"Auth Token"))
+        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.EMPTY_CODE, "Auth Token"))
     }
 }
 
@@ -247,21 +251,21 @@ exports.updateCustomerCreditCard = (request, response) => {
                             response.json(SequelizeResponse.dataValues)
                         }
                         else {
-                            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.CUSTOMER.ID_NOT_EXIST,"Customer ID"))
+                            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.CUSTOMER.ID_NOT_EXIST, "Customer ID"))
                         }
                     })
                 })
             }
             else {
-                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS,"Credit Card"))
+                response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Credit Card"))
             }
         }
         else {
-            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.UNAUTHORIZED,"Auth Token"))
+            response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.UNAUTHORIZED, "Auth Token"))
         }
     }
     else {
-        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.EMPTY_CODE,"Auth Token"))
+        response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.EMPTY_CODE, "Auth Token"))
     }
 }
 exports.getAuthToken = (request, response) => {
