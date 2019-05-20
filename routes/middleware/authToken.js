@@ -1,6 +1,10 @@
 let jwt = require('jsonwebtoken');
 const autKey = require('../../config/auth');
 
+/**
+ * Validae Auth Token 
+ */
+
 exports.validateToken = (token) => {
     var validate = false
     if (token.startsWith('Bearer ')) {
@@ -21,6 +25,11 @@ exports.validateToken = (token) => {
         return validate
 
 }
+
+/**
+ * Creating New Auth Token
+ */
+
 exports.createToken = (_email) => {
     let token = jwt.sign({email: _email},
         autKey.SECRET,
