@@ -42,7 +42,7 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER
         },
         cart_id: {
-            type: type.INTEGER,
+            type: type.STRING,
             allowNull: false
         }
     },{

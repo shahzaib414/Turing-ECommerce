@@ -44,5 +44,8 @@ module.exports = Object.freeze({
     }),
     SHIPPING: Object.freeze({
         INVALID_ID: 'SHIP_01'
+    }),
+    CART : Object.freeze({
+        ID_NOT_EXIST: 'CART_01'
     })
 });

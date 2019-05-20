@@ -208,11 +208,20 @@ exports.getErrorMessageObject = (errorCode, fieldName) => {
                     "field": fieldName
                 }
             }
-            case errorCodes.SHIPPING.INVALID_ID:
+        case errorCodes.SHIPPING.INVALID_ID:
             return {
                 "error": {
                     "status": 400,
                     "code": errorCodes.SHIPPING.INVALID_ID,
+                    "message": "ID Doesn't exist",
+                    "field": fieldName
+                }
+            }
+        case errorCodes.CART.ID_NOT_EXIST:
+            return {
+                "error": {
+                    "status": 400,
+                    "code": errorCodes.CART.ID_NOT_EXIST,
                     "message": "ID Doesn't exist",
                     "field": fieldName
                 }

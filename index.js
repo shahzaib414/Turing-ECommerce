@@ -13,10 +13,10 @@ stripe.webhookEndpoints.create({
   enabled_events: ["charge.failed", "charge.succeeded"]
 }, function(err, webhookEndpoint) {
     if (err) {
-        console.log(err)
+       // console.log(err)
     }
     else {
-        console.log(webhookEndpoint)
+       // console.log(webhookEndpoint)
     }
 });
 

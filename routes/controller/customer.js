@@ -8,9 +8,11 @@ var ErrorResponse = require('../../utils/errorHandling/errorResponse')
 var ErrorCode = require('../../utils/errorHandling/errorCodes')
 var Op = require('sequelize').Op
 
+/**
+ * Get a customer by ID. The customer is getting by Token
+ */
+
 exports.getCustomer = (request, response) => {
-
-
     let token = request.headers['x-access-token'] || request.headers[auth.AUTH_HEADER];
 
     if (token) {
@@ -37,6 +39,11 @@ exports.getCustomer = (request, response) => {
     }
 
 }
+
+/**
+ * Register a Customer
+ */
+
 exports.registerCustomer = (request, response) => {
     if (typeof request.body.email !== 'undefined' && typeof request.body.name !== 'undefined' && typeof request.body.password !== 'undefined' && typeof request.body.shipping_region_id !== 'undefined') {
         if (!validator.validate(request.body.email)) {
@@ -76,6 +83,11 @@ exports.registerCustomer = (request, response) => {
         response.json(ErrorResponse.getErrorMessageObject(ErrorCode.USERS.REQUIRED_FIELDS, "Email/Name/Password/Shipping ID"))
     }
 }
+
+/**
+ * Sign in Shopping
+ */
+
 exports.loginCustomer = (request, response) => {
     var data = {}
     if (typeof request.body.email !== 'undefined' && typeof request.body.password !== 'undefined') {
@@ -138,6 +150,10 @@ exports.loginCustomer = (request, response) => {
     }
 }
 
+/**
+ * Update a Customer
+ */
+
 exports.updateCustomer = (request, response) => {
     let token = request.headers['x-access-token'] || request.headers[auth.AUTH_HEADER];
     if (token) {
@@ -183,6 +199,11 @@ exports.updateCustomer = (request, response) => {
         response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.EMPTY_CODE, "AUth Token"))
     }
 }
+
+/**
+ * Update Address from Customer
+ */
+
 exports.updateCustomerAddress = (request, response) => {
     let token = request.headers['x-access-token'] || request.headers[auth.AUTH_HEADER];
     if (token) {
@@ -226,6 +247,10 @@ exports.updateCustomerAddress = (request, response) => {
         response.json(ErrorResponse.getErrorMessageObject(ErrorCode.AUTHENTICATION.EMPTY_CODE, "Auth Token"))
     }
 }
+
+/**
+ * Update Credit Card from customer
+ */
 
 exports.updateCustomerCreditCard = (request, response) => {
     let token = request.headers['x-access-token'] || request.headers[auth.AUTH_HEADER];
