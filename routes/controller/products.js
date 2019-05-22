@@ -14,48 +14,64 @@ exports.getProducts = (request, response) => {
     /* Retrive results with page/limit/description length params */
     if (typeof request.query.description_length !== 'undefined' && typeof request.query.limit !== 'undefined') {
         var description_length = typeof request.query.description_length !== 'undefined' ? request.query.description_length : 200
-        var page = typeof request.query.page !== 'undefined' ? request.query.page : 0
+        var page = typeof request.query.page !== 'undefined' ? request.query.page : 1
         var limit = request.query.limit;
-        var SqlQuery = "SELECT product_id,name,substr(`description`,1," + description_length + ") " +
-            "as description,price,discounted_price,image,image_2,thumbnail,display FROM tshirtshop.product limit " + Number(page) + "," + Number(limit) + ";"
-        Sequelize.initSequelize.query(SqlQuery)
-            .then(([results, metadata]) => {
-                response.json({
-                    count: results.length,
-                    row: results
-                })
+        var CountQuery = "SELECT count(*) as count from Product;"
+        Sequelize.initSequelize.query(CountQuery)
+            .then(([result, metadata]) => {
+                var SqlQuery = "SELECT product_id,name,substr(`description`,1," + description_length + ") " +
+                    "as description,price,discounted_price,image,image_2,thumbnail,display FROM tshirtshop.product limit " + Number((page - 1) * limit) + "," + Number(limit) + ";"
+                Sequelize.initSequelize.query(SqlQuery)
+                    .then(([results, metadata]) => {
+                        response.json({
+                            count: result[0].count,
+                            row: results
+                        })
+                    })
             })
+
+
     }
     /* description length param */
     else if (typeof request.query.description_length !== 'undefined') {
+        var CountQuery = "SELECT count(*) as count from Product;"
         var description_length = typeof request.query.description_length !== 'undefined' ? request.query.description_length : 20
-        var SqlQuery = "SELECT product_id,name,substr(`description`,1," + description_length + ") " +
+        Sequelize.initSequelize.query(CountQuery)
+        .then(([result, metadata]) => {
+            var SqlQuery = "SELECT product_id,name,substr(`description`,1," + description_length + ") " +
             "as description,price,discounted_price,image,image_2,thumbnail,display FROM tshirtshop.product;"
         Sequelize.initSequelize.query(SqlQuery)
             .then(([results, metadata]) => {
                 response.json({
-                    count: results.length,
+                    count: result[0].count,
                     row: results
                 })
             })
+        })
     }
     /* limit param */
     else if (typeof request.query.limit !== 'undefined') {
 
-        var page = typeof request.query.page !== 'undefined' ? request.query.page : 0
+        var page = typeof request.query.page !== 'undefined' ? request.query.page : 1
         var limit = request.query.limit;
-        var SqlQuery = "SELECT product_id,name,substr(`description`,1,200) " +
-            "as description,price,discounted_price,image,image_2,thumbnail,display FROM tshirtshop.product limit " + Number(page) + "," + Number(limit) + ";"
+        var CountQuery = "SELECT count(*) as count from Product;"
+        Sequelize.initSequelize.query(CountQuery)
+        .then(([result, metadata]) => {
+            var SqlQuery = "SELECT product_id,name,substr(`description`,1,200) " +
+            "as description,price,discounted_price,image,image_2,thumbnail,display FROM tshirtshop.product limit " + Number((page - 1) * limit) + "," + Number(limit) + ";"
         Sequelize.initSequelize.query(SqlQuery)
             .then(([results, metadata]) => {
                 response.json({
-                    count: results.length,
+                    count: result[0].count,
                     row: results
                 })
             })
+        })
+       
     }
     /* without page/limit/description length param */
     else {
+
         var SqlQuery = "SELECT product_id,name,substr(`description`,1,200) " +
             "as description,price,discounted_price,image,image_2,thumbnail,display FROM tshirtshop.product;"
         Sequelize.initSequelize.query(SqlQuery)
@@ -78,14 +94,14 @@ exports.getProductByDepartmentID = (request, response) => {
     /** Retrive results with page/limit/description length params */
     if (typeof request.params.department_id !== "undefined" && typeof request.query.limit !== "undefined") {
         var department_id = request.params.department_id
-        var page = typeof request.query.page !== 'undefined' ? request.query.page : 0
+        var page = typeof request.query.page !== 'undefined' ? request.query.page : 1
         var limit = request.query.limit;
         var description_length = typeof request.query.description_length !== 'undefined' ? request.query.description_length : 200
 
         var SqlQuery = "Select product.product_id,product.name,substr(product.description,1," + description_length + ") as description,price,discounted_price,thumbnail " +
             "from category inner join product_category on product_category.category_id = category.category_id " +
             "left join product on product_category.product_id = product.product_id " +
-            "where department_id = " + department_id + " limit " + page + "," + limit + ";"
+            "where department_id = " + department_id + " limit " + Number((page - 1) * limit) + "," + Number(limit) + ";"
         Sequelize.initSequelize.query(SqlQuery)
             .then(([results, metadata]) => {
                 if (results.length > 0) {
@@ -189,12 +205,12 @@ exports.getProductByCategoryID = (request, response) => {
     /** Retrive result with limit/page Params */
     if (typeof request.params.category_id !== "undefined" && typeof request.query.limit !== "undefined") {
         var category_id = request.params.category_id
-        var page = typeof request.query.page !== 'undefined' ? request.query.page : 0
+        var page = typeof request.query.page !== 'undefined' ? request.query.page : 1
         var limit = request.query.limit;
         var description_length = typeof request.query.description_length !== 'undefined' ? request.query.description_length : 200
         var SqlQuery = "Select product.product_id,name,substr(`description`,1," + description_length + ") as description,price,discounted_price,thumbnail " +
             "from product_category left join product on product_category.product_id = product.product_id " +
-            "where product_category.category_id = " + category_id + " limit " + page + "," + limit + ";"
+            "where product_category.category_id = " + category_id + " limit " + Number((page - 1) * limit) + "," + Number(limit) + ";"
         Sequelize.initSequelize.query(SqlQuery)
             .then(([results, metadata]) => {
                 if (results.length > 0) {
@@ -292,7 +308,7 @@ exports.PostProductReview = (request, response) => {
  * Get Product Location
  */
 exports.getProductLocation = (request, response) => {
-    
+
     if (typeof request.params.product_id !== 'undefined') {
         var SqlQuery = "Select category.category_id, category.name as category_name, department.department_id, department.name as department_name " +
             "from product_category " +
@@ -321,7 +337,7 @@ exports.getProductLocation = (request, response) => {
  */
 
 exports.getDetailsByProductID = (request, response) => {
-    
+
     if (typeof request.params.product_id !== 'undefined') {
 
         Sequelize.ProductModel.findOne({
@@ -351,14 +367,14 @@ exports.getDetailsByProductID = (request, response) => {
  * Search Product
  */
 exports.searchProducts = (request, response) => {
-    
+
     if (typeof request.query.query_string !== "undefined" && typeof request.query.limit !== "undefined") {
         var query = request.query.query_string;
-        var page = typeof request.query.page !== 'undefined' ? request.query.page : 0
+        var page = typeof request.query.page !== 'undefined' ? request.query.page : 1
         var limit = request.query.limit;
         var description_length = typeof request.query.description_length !== 'undefined' ? request.query.description_length : 200
         var SqlQuery = "SELECT product_id,name,substr(`description`,1," + description_length + ") as description,price,discounted_price,image,image_2,thumbnail,display " +
-            "FROM tshirtshop.product where description like '%" + query + "%' or name like '%" + query + "%' limit " + page + ", " + limit + ";";
+            "FROM tshirtshop.product where description like '%" + query + "%' or name = '" + query + "' limit " + Number((page - 1) * limit) + ", " + Number(limit) + ";";
         Sequelize.initSequelize.query(SqlQuery)
             .then(([results, metadata]) => {
                 response.json({
@@ -371,7 +387,7 @@ exports.searchProducts = (request, response) => {
         var query = request.query.query_string;
         var description_length = typeof request.query.description_length !== 'undefined' ? request.query.description_length : 200
         var SqlQuery = "SELECT product_id,name,substr(`description`,1," + description_length + ") as description,price,discounted_price,image,image_2,thumbnail,display " +
-            "FROM tshirtshop.product where description like '%" + query + "%' or name like '%" + query + "%';";
+            "FROM tshirtshop.product where description like '%" + query + "%' or name = '" + query + "';";
         Sequelize.initSequelize.query(SqlQuery)
             .then(([results, metadata]) => {
                 response.json({

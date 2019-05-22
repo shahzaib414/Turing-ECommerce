@@ -10,7 +10,7 @@ var Op = sequelize.Op
 exports.getCategories = (request, response) => {
     if (typeof request.query.order !== 'undefined' && typeof request.query.limit !== 'undefined') {
         var order = request.query.order
-        var page = typeof request.query.page !== 'undefined' ? request.query.page : 0
+        var page = typeof request.query.page !== 'undefined' ? request.query.page : 1
         var limit = request.query.limit;
         order = validateOrderField(order)  /* Valid format for Param Order: 'category_id', 'name'*/
         if (order.length == 2) {
@@ -23,7 +23,7 @@ exports.getCategories = (request, response) => {
                             [fieldName, orderType]
                         ],
                         limit: Number(limit),
-                        offset: Number(page)
+                        offset: Number((page-1)*limit)
                     }).then((result) => {
                         if (result.length > 0) {
                             response.json({
@@ -72,10 +72,10 @@ exports.getCategories = (request, response) => {
         }
     }
     else if (typeof request.query.limit !== 'undefined') {
-        var page = typeof request.query.page !== 'undefined' ? request.query.page : 0
+        var page = typeof request.query.page !== 'undefined' ? request.query.page : 1
         var limit = request.query.limit;
         Sequelize.CategoryModel.findAll({
-            offset: Number(page),
+            offset: Number((page-1)*limit),
             limit: Number(limit)
         })
             .then((result) => {

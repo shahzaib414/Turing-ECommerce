@@ -48,10 +48,10 @@ exports.getAttributesByID = (request, response) => {
  */
 
 exports.getAttributeValueByID = (request, response) => {
-    if (typeof request.params.attribute_value_id !== 'undefined') {
-        Sequelize.Attributes_ValueModel.findOne({
+    if (typeof request.params.attribute_id !== 'undefined') {
+        Sequelize.Attributes_ValueModel.findAll({
             where: {
-                attribute_value_id: request.params.attribute_value_id
+                attribute_id: request.params.attribute_id
             }
         }).then((result) => {
                 if (result != null) {
@@ -78,7 +78,7 @@ exports.getAttributesWithProductID = (request, response) => {
             "INNER JOIN product_attribute ON attribute_value.attribute_value_id = product_attribute.attribute_value_id " +
             "INNER JOIN attribute on attribute_value.attribute_id = attribute.attribute_id where product_id = " + request.params.product_id
         Sequelize.initSequelize.query(SQL).then(([results, metadata]) => {
-            if (result != null) {
+            if (results != null) {
                 response.json(results)
             }
             else {

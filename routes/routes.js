@@ -43,7 +43,7 @@ module.exports = function(app){
      * */
     app.get('/attributes',attributes.getAttributes)
     app.get('/attributes/:attribute_id',attributes.getAttributesByID)
-    app.get('/attributes/values/:attribute_value_id',attributes.getAttributeValueByID)
+    app.get('/attributes/values/:attribute_id',attributes.getAttributeValueByID)
     app.get('/attributes/inProduct/:product_id',attributes.getAttributesWithProductID)
 
     /** 
