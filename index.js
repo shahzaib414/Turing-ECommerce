@@ -32,7 +32,7 @@ app.use("/*", apiLimiter);
 app.use(bodyParser.urlencoded({ extended: true }))
 
 app.use(bodyParser.json())
-//app.use(morgan('combined'))
+app.use(morgan('combined'))
 
 routes(app)
 app.use(function(req, res){

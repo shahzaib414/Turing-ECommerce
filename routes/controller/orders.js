@@ -219,13 +219,13 @@ function SendEmail (emailContent) {
     let transporter = nodeMailer.createTransport({
         service: 'Gmail',
         auth: {
-            user: 'shahzaib.shahid414@gmail.com',
-            pass: 'Speed1822414'
+            user: '<Your Email>',
+            pass: '<Your Email Password here>'
         }
     });
     let mailOptions = {
-        from: 'shahzaib.shahid414@gmail.com',
-        to: "shahzaib.shahid414@gmail.com", 
+        from: '<Sender Email>',
+        to: "<Reciver Email>", 
         subject: "Order Confirmation", 
         text: emailContent, 
         html: emailContent 
