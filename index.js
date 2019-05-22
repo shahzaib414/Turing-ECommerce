@@ -23,7 +23,7 @@ stripe.webhookEndpoints.create({
 
 const apiLimiter = rateLimit({
   windowMs:  60 * 1000, // 1 minutes
-  max: 50 ,
+  max: 3 ,
   message:
     "Too many request recieved , please try again later"
 });

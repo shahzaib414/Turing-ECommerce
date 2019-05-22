@@ -19,7 +19,7 @@ describe('/PUT Update Customer Address', () => {
         country : "Pakistan",
         shipping_region_id : "1"
     }
-    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODQ3NTM2MSwiZXhwIjoxNTU4NTYxNzYxfQ.UUC3LaoXnQef0gy8ZBudF91mNLsF9x7csr0T86ZnJ14"
+    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODUzMDUzMSwiZXhwIjoxNTU4NjE2OTMxfQ.ssG6LmvoNiiYWMaEFq475iQ9IjvXibGRWQdu6e19FsA"
     it('it should Update Customer Address', (done) => {
       chai.request(server)
           .put('/customers/address')
@@ -52,7 +52,7 @@ describe('/PUT Update Customer Credit Card', () => {
     var customer = {
        credit_card : "3523543565478564"
     }
-    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODQ3NTM2MSwiZXhwIjoxNTU4NTYxNzYxfQ.UUC3LaoXnQef0gy8ZBudF91mNLsF9x7csr0T86ZnJ14"
+    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODUzMDUzMSwiZXhwIjoxNTU4NjE2OTMxfQ.ssG6LmvoNiiYWMaEFq475iQ9IjvXibGRWQdu6e19FsA"
     it('it should Customer Credit Card', (done) => {
       chai.request(server)
           .put('/customers/creditCard')
@@ -86,7 +86,7 @@ describe('/PUT Customers', () => {
         name : "shahzaib",
         email : 'shahzaib415@email.com',
     }
-    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODQ3NTM2MSwiZXhwIjoxNTU4NTYxNzYxfQ.UUC3LaoXnQef0gy8ZBudF91mNLsF9x7csr0T86ZnJ14"
+    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODUzMDUzMSwiZXhwIjoxNTU4NjE2OTMxfQ.ssG6LmvoNiiYWMaEFq475iQ9IjvXibGRWQdu6e19FsA"
     it('it should update customer', (done) => {
       chai.request(server)
           .put('/customer')
@@ -119,7 +119,7 @@ describe('/PUT Customers', () => {
  */
 
 describe('/GET Customers', () => {
-    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODQ3NTM2MSwiZXhwIjoxNTU4NTYxNzYxfQ.UUC3LaoXnQef0gy8ZBudF91mNLsF9x7csr0T86ZnJ14"
+    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODUzMDUzMSwiZXhwIjoxNTU4NjE2OTMxfQ.ssG6LmvoNiiYWMaEFq475iQ9IjvXibGRWQdu6e19FsA"
     it('it should get Customer details', (done) => {
       chai.request(server)
           .get('/customer')
@@ -157,7 +157,7 @@ describe('/POST Customers', () => {
         password : "password123",
         shipping_region_id : 12
     }
-    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODQ3NTM2MSwiZXhwIjoxNTU4NTYxNzYxfQ.UUC3LaoXnQef0gy8ZBudF91mNLsF9x7csr0T86ZnJ14"
+    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODUzMDUzMSwiZXhwIjoxNTU4NjE2OTMxfQ.ssG6LmvoNiiYWMaEFq475iQ9IjvXibGRWQdu6e19FsA"
     it('it should Post Data to register customer', (done) => {
       chai.request(server)
           .post('/customers')
@@ -205,7 +205,7 @@ describe('/POST Sign in Customer', () => {
         email: "shahzaib414@email.com",
         password : "123456"
     }
-    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODQ3NTM2MSwiZXhwIjoxNTU4NTYxNzYxfQ.UUC3LaoXnQef0gy8ZBudF91mNLsF9x7csr0T86ZnJ14"
+    var token = "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InNoYWh6YWliNDE0QGVtYWlsLmNvbSIsImlhdCI6MTU1ODUzMDUzMSwiZXhwIjoxNTU4NjE2OTMxfQ.ssG6LmvoNiiYWMaEFq475iQ9IjvXibGRWQdu6e19FsA"
     it('it should Sign in customer', (done) => {
       chai.request(server)
           .post('/customer/login')
